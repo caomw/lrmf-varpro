@@ -15,6 +15,7 @@ typedef struct problem {
   /* Functions */
   double cost(); // cost function
   double cost(MatrixXd_t & U, MatrixXd_t & V);
+  MatrixXd_t optimal_V();  
   MatrixXd_t optimal_V(const MatrixXd_t U);
   
   // Eigen
@@ -23,8 +24,7 @@ typedef struct problem {
   /* Data */
   int r = 0;
   Eigen::VectorXd residual; // residual
-  std::vector<MatrixXd_t> UQ_blocks;
-  std::vector<MatrixXd_t> UR_blocks;
+  std::vector<Eigen::HouseholderQR<MatrixXd_t>> U_QR;
   
   /* Pointers */
   MatrixXd_t * ptr_U, * ptr_V;

@@ -33,8 +33,10 @@ int main(void) {
   
   MatrixXd_t U(m, r);
   MatrixXd_t V(n, r);
+//  MatrixXd_t V = MatrixXd_t::Random(n, r);
   io::read_dense_matrix(U_path, U, m, r);
   io::read_dense_matrix(V_path, V, n, r);
+//  std::cout << "V0: " << V << std::endl;
   
   dataset_t data(m, n, M_path, W_path);
   
@@ -45,16 +47,16 @@ int main(void) {
   
   //  std::cout << "U: " << *(problem.ptr_U) << std::endl;
   std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-  problem.cost();
-//  std::cout << "Cost: " << problem.cost() << std::endl;
+//  problem.cost();
+  std::cout << "Cost: " << problem.cost() << std::endl;
   std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-//  std::cout << "V*: " << std::endl << problem.optimal_inner_matrix(U) << std::endl;
-  problem.optimal_V(U);
+//  std::cout << "V*: " << std::endl << problem.optimal_V() << std::endl;
+  problem.optimal_V();
   std::chrono::high_resolution_clock::time_point t3 = std::chrono::high_resolution_clock::now();
   auto dur_1 = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
   auto dur_2 = std::chrono::duration_cast<std::chrono::microseconds>( t3 - t2 ).count();
   std::cout << "Cost duration: " << dur_1 << std::endl;
-  std::cout << "Cost duration: " << dur_2 << std::endl;
+  std::cout << "Inner iteration duration: " << dur_2 << std::endl;
   //  std::cout << "Mt last: " << data.mt[5301] << std::endl;
   return 0;
 }
