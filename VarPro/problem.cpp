@@ -123,20 +123,44 @@ void problem::compute_gradient() {
   }
 }
 
-/* Compute JTJ for current U and V*(U) */
+/* Compute JTJ for current U and V*(U). */
 void problem::compute_JTJ() {
-  // Compute RW3 approximation of JTJ
-  MatrixXd_t A(r, r);
+  
+  // Initialize variables.
   int n = (* ptr_data).n;
-  int block_idx, cur_nnz, nnz_so_far = 0;
-  JTJ.setZero();
-  for (int j = 0; j < n; ++j) {
-    cur_nnz = (* ptr_data).nnz[j];
-    A.triangularView<Eigen::Upper>() = (* ptr_Vopt).row(j).transpose() * (* ptr_Vopt).row(j);
-    for (int k = 0; k < cur_nnz; ++k) {
-      block_idx = (* ptr_data).jj[j][k] * r;
-      JTJ.block(block_idx, block_idx, r, r).triangularView<Eigen::Upper>() += A;
+  int block_idx, cur_nnz;
+  MatrixXd_t VTV_j(r, r);
+  
+  if (rw == 3) {
+    // Compute RW3 approximation of JTJ.
+    for (int j = 0; j < n; ++j) {
+      cur_nnz = (* ptr_data).nnz[j];
+      VTV_j.triangularView<Eigen::Upper>() = (* ptr_Vopt).row(j).transpose() * (* ptr_Vopt).row(j);
+      for (int k = 0; k < cur_nnz; ++k) {
+        block_idx = (* ptr_data).jj[j][k] * r;
+        JTJ.block(block_idx, block_idx, r, r).triangularView<Eigen::Upper>() += VTV_j;
+      }
+    }
+  } else if (rw == 2) {
+    // Compute RW2 approximation of JTJ.
+    for (int j = 0; j < n; ++j) {
+      cur_nnz = (* ptr_data).nnz[j];
+      
+      // Compute I - UQ_j * UQ_j'.
+      MatrixXd_t UQTUQ_j(MatrixXd_t::Identity(cur_nnz, cur_nnz)), thinQ(MatrixXd_t::Identity(cur_nnz, r));
+      MatrixXd_t UQ_j = U_QR[j].householderQ() * thinQ;
+      UQTUQ_j.triangularView<Eigen::Upper>() -= UQ_j * UQ_j.transpose();
+      
+      // Compute v_j * v_j'.
+      VTV_j.triangularView<Eigen::Upper>() = (* ptr_Vopt).row(j).transpose() * (* ptr_Vopt).row(j);
+      
+      // Fill the upper bits of each JTJ sub-block.
+      for (int k = 0; k < cur_nnz; ++k) {
+        block_idx = (* ptr_data).jj[j][k] * r;
+        for (int l = k; l < cur_nnz; ++l) {
+          JTJ.block(block_idx, (* ptr_data).jj[j][l] * r, r, r).triangularView<Eigen::Upper>() += VTV_j * UQTUQ_j(k, l);
+        }
+      }
     }
   }
-    std::cout << JTJ.topLeftCorner(r, r) << std::endl;
 }
