@@ -9,16 +9,18 @@ problem::~problem() {}
 problem::problem(dataset_t * ptr_dataset, const int rank, MatrixXd_t * ptr_U0, MatrixXd_t * ptr_V0) {
   // Set the problem rank.
   r = rank;
+  num_params = (* ptr_dataset).m * rank;
   
   // Set pointer locations.
   ptr_data = ptr_dataset;
   ptr_U = ptr_U0;
   ptr_Vopt = ptr_V0;
   
-  // Resize vectors.
+  // Resize vectors and the JTJ matirx.
   residual.resize((* ptr_dataset).nnz_total);
   U_QR.resize((* ptr_dataset).n);
-  gradient.resize((* ptr_dataset).m * rank);
+  gradient.resize(num_params);
+  JTJ.resize(num_params, num_params);
   
 }
 
@@ -63,7 +65,7 @@ void problem::compute_residual(MatrixXd_t & U, MatrixXd_t & Vopt, Eigen::VectorX
     Eigen::Map<MatrixXd_t> U_j(_U_j, cur_nnz, r);
     
     // Update residuals
-    residual_.segment(nnz_so_far, cur_nnz) += U_j * (Vopt.row(j).transpose());
+    residual_.segment(nnz_so_far, cur_nnz) += U_j * Vopt.row(j).transpose();
     
     // Update the nnz counter.
     nnz_so_far += cur_nnz;
@@ -123,5 +125,18 @@ void problem::compute_gradient() {
 
 /* Compute JTJ for current U and V*(U) */
 void problem::compute_JTJ() {
-  
+  // Compute RW3 approximation of JTJ
+  MatrixXd_t A(r, r);
+  int n = (* ptr_data).n;
+  int block_idx, cur_nnz, nnz_so_far = 0;
+  JTJ.setZero();
+  for (int j = 0; j < n; ++j) {
+    cur_nnz = (* ptr_data).nnz[j];
+    A.triangularView<Eigen::Upper>() = (* ptr_Vopt).row(j).transpose() * (* ptr_Vopt).row(j);
+    for (int k = 0; k < cur_nnz; ++k) {
+      block_idx = (* ptr_data).jj[j][k] * r;
+      JTJ.block(block_idx, block_idx, r, r).triangularView<Eigen::Upper>() += A;
+    }
+  }
+    std::cout << JTJ.topLeftCorner(r, r) << std::endl;
 }

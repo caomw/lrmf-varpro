@@ -40,13 +40,17 @@ int main(void) {
   problem.cost();
   problem.compute_gradient();
   std::chrono::high_resolution_clock::time_point t4 = std::chrono::high_resolution_clock::now();
+  problem.compute_JTJ();
+  std::chrono::high_resolution_clock::time_point t5 = std::chrono::high_resolution_clock::now();
   auto dur_1 = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
   auto dur_2 = std::chrono::duration_cast<std::chrono::microseconds>( t3 - t2 ).count();
   auto dur_3 = std::chrono::duration_cast<std::chrono::microseconds>( t4 - t3 ).count();
+  auto dur_4 = std::chrono::duration_cast<std::chrono::microseconds>( t5 - t4 ).count();
   std::cout << "Final cost: " << problem.cost() << std::endl;
   std::cout << "Cost duration: " << dur_1 << std::endl;
   std::cout << "Inner iteration duration: " << dur_2 << std::endl;
   std::cout << "Gradient duration: " << dur_3 << std::endl;
+  std::cout << "JTJ duration: " << dur_4 << std::endl;
 
   return 0;
 }

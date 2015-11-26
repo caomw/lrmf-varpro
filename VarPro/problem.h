@@ -29,10 +29,11 @@ typedef struct problem {
   /* Data */
   int r = 0;
   int rw = 2;
+  int num_params = 0;
   bool rank_fill = 0;
   Eigen::VectorXd residual; // residual
   Eigen::VectorXd gradient;
-  Eigen::VectorXd JTJ;
+  MatrixXd_t JTJ;
   std::vector<Eigen::HouseholderQR<MatrixXd_t>> U_QR;
   
   /* Pointers */
