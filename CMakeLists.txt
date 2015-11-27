@@ -14,6 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED on)
 set(SOURCES
   VarPro/dataset.cpp
   VarPro/io.cpp
+  VarPro/optimizer.cpp
   VarPro/problem.cpp
   VarPro/main.cpp
 )

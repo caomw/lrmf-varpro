@@ -5,6 +5,7 @@
 //#include "parser.h"
 //#include "experiment.h"
 #include "dataset.h"
+#include "optimizer.h"
 #include "problem.h"
 #include "io.h"
 
