@@ -1,8 +1,9 @@
 #ifndef _OPTIMIZER_H_
 #define _OPTIMIZER_H_
 
-//#include "config.h"
 #include "problem.h"
+
+#include <chrono>
 
 // Optimizer options
 typedef struct optimizer_opts {
@@ -28,7 +29,8 @@ typedef struct optimizer {
   void evaluate_dx(double lambda);
   void solve();
   void print_iter_header();
-  void print_iter_info(int iter, int eval, double lambda, double cost, double cost_change);
+  void print_iter_header_bar();
+  void print_iter_info(int iter, int eval, double cost, double cost_change, Eigen::VectorXd gradient, double lambda);
 
   /* Pointer */
   problem_t * ptr_prob;
