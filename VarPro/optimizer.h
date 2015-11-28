@@ -25,8 +25,10 @@ typedef struct optimizer {
   optimizer(problem_t * ptr_problem, optimizer_opts_t * ptr_optimizer_opts);
   
   /* Functions */
-  void evaluate_dx();
+  void evaluate_dx(double lambda);
   void solve();
+  void print_iter_header();
+  void print_iter_info(int iter, int eval, double lambda, double cost, double cost_change);
 
   /* Pointer */
   problem_t * ptr_prob;
@@ -37,8 +39,6 @@ typedef struct optimizer {
   
   /* Variables */
   Eigen::VectorXd dx;
-  int eval = 0, iter = 0;
-  double lambda = 0;
   
 } optimizer_t;
 
