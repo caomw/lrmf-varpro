@@ -62,11 +62,21 @@ void optimizer::solve() {
   // Measure the initial time.
   std::chrono::high_resolution_clock::time_point t_init = std::chrono::high_resolution_clock::now();
   
+  // Compute the initial cost before obtaining V*(U). i.e. V = V0;
+  ptr_prob->evaluate_residual(* ptr_prob->ptr_U, * ptr_prob->ptr_Vopt, ptr_prob->residual, ptr_prob->cost);
+  cost_change = - ptr_prob->cost;
+  print_iter_info(-1, -1, ptr_prob->cost, 0, ptr_prob->gradient, 0);
+  
+  // Compute the initial cost after obtaining V*(U). i.e. V*(U0).
   ptr_prob->evaluate_residual();
-  print_iter_info(0, 0, ptr_prob->cost, cost_change, ptr_prob->gradient, lambda);
+  cost_change += ptr_prob->cost;
+  print_iter_info(0, 0, ptr_prob->cost, cost_change, ptr_prob->gradient, 0);
+  
   for (int iter = 0; iter < ptr_opts->max_iters; ++iter) {
+    // For each iteration, evaluate VarPro gradient and JTJ.
     ptr_prob->evaluate_gradient();
     ptr_prob->evaluate_JTJ();
+    
     for (trial = 0; trial < ptr_opts->max_trials; ++trial) {
       evaluate_dx(lambda);
       ptr_prob->evaluate_candidate_vars(dx);
@@ -87,7 +97,7 @@ void optimizer::solve() {
       std::cout << "MAX TRIALS REACHED!" << std::endl;
       break;
     }
-    print_iter_info(iter + 1, eval, ptr_prob->cost, cost_change, ptr_prob->gradient, lambda);
+    print_iter_info(iter + 1, eval, ptr_prob->cost, cost_change, ptr_prob->gradient, lambda / 10);
     if (std::abs(cost_change) < ptr_opts->func_tol) {
       std::cout << "FUNCTION TOLERANCE REACHED!" << std::endl;
       break;

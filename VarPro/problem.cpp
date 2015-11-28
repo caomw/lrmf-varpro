@@ -20,6 +20,7 @@ problem::problem(dataset_t * ptr_dataset, const int rank, MatrixXd_t * ptr_U0, M
   residual.resize(ptr_dataset->nnz_total);
   U_QR.resize(ptr_dataset->n);
   gradient.resize(num_params);
+  gradient.setZero();
   JTJ.resize(num_params, num_params);
   
   // Resize candidate vectors and the JTJ matrix.
