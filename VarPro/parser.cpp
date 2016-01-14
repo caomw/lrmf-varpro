@@ -135,7 +135,7 @@ void outputCommands() {
   std::cout << std::endl;
   
   std::cout << "[ Solver-related ]" << std::endl;
-  std::cout << "-t=<double>, --tol=<double>: Set the function tolerance. (default = 1e-9)" << std::endl;
+  std::cout << "-t=<double>, --func_tol=<double>: Set the function tolerance. (default = 1e-9)" << std::endl;
   std::cout << "-i=<int>, --max_iter=<double>: Set the maximum number of iterations. (default = 300)" << std::endl;
   std::cout << std::endl;
   
