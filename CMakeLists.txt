@@ -13,10 +13,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED on)
 
 set(SOURCES
   VarPro/dataset.cpp
+  VarPro/experiment.cpp
   VarPro/io.cpp
-  VarPro/optimizer.cpp
-  VarPro/problem.cpp
   VarPro/main.cpp
+  VarPro/optimizer.cpp
+  VarPro/options.cpp
+  VarPro/parser.cpp
+  VarPro/problem.cpp
 )
 
 # LRMF

@@ -5,6 +5,8 @@
 #include <vector>
 #include <Eigen/Dense>
 
+#include "config.h"
+
 struct io {
   
   // Destructor
@@ -24,6 +26,9 @@ struct io {
    * Requires jj index and information about non-zeros.
    */
   static void read_visible_entries(const std::string file_path, Eigen::VectorXd & x, const std::vector<std::vector<int>> jj, const std::vector<int> nnz, const int nnz_total, const int num_rows, const int num_cols);
+  
+  static void write_dense_matrix(const std::string file_path, const MatrixXd_t matrix, const int num_rows, const int num_cols);
+  static void write_dense_vector(const std::string file_path, const Eigen::VectorXd vector, const int num_elements);
 };
 
 #endif

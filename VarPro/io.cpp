@@ -72,7 +72,7 @@ void io::read_visible_entries(const std::string file_path, Eigen::VectorXd & x, 
   int l = -1;
   for (int j = 0; j < num_cols; ++j) {
     for (std::vector<int>::iterator it = jj[j].begin(); it !=jj[j].end(); ++it) {
-//    for (int k = 0; k < nnz[j]; ++k) {
+      //    for (int k = 0; k < nnz[j]; ++k) {
       // Seek data pointer and read the corresponding value.
       input_stream.seekg((j * num_rows + (* it)) * DOUBLE_SIZE);
       input_stream.read((char *) (&buffer), DOUBLE_SIZE);
@@ -82,4 +82,46 @@ void io::read_visible_entries(const std::string file_path, Eigen::VectorXd & x, 
   
   // Close the input stream.
   input_stream.close();
+}
+
+// Write Eigen matrix to a binary file in the row-major order.
+void io::write_dense_matrix(const std::string file_path, const MatrixXd_t matrix, const int num_rows, const int num_cols)
+{
+  std::ofstream output_stream(file_path.c_str(), std::ios::binary);
+  if (!output_stream.is_open()) {
+    std::cout << "Error! Unable to open the output file \"" << file_path << "\"." << std::endl;
+    return;
+  }
+  
+  std::ofstream::streampos length;
+  // std::cout << "Number of elements to be written: " << nRows * nCols << std::endl;
+  
+  double buffer;
+  for (int j = 0; j < num_cols; j++) {
+    for (int i = 0; i < num_rows; i++) {
+      buffer = matrix(i, j);
+      output_stream.write((char*)(&buffer), DOUBLE_SIZE);
+    }
+  }
+  output_stream.close();
+}
+
+// Write Eigen vector to a binary file.
+void io::write_dense_vector(const std::string file_path, const Eigen::VectorXd vector, const int num_elements)
+{
+  std::ofstream output_stream(file_path.c_str(), std::ios::binary);
+  if (!output_stream.is_open()) {
+    std::cout << "Error! Unable to open the output file \"" << file_path << "\"." << std::endl;
+    return;
+  }
+  
+  std::ofstream::streampos length;
+  // std::cout << "Number of elements to be written: " << nRows * nCols << std::endl;
+  
+  double buffer;
+  for (int j = 0; j < num_elements; j++) {
+    buffer = vector(j);
+    output_stream.write((char*)(&buffer), DOUBLE_SIZE);
+  }
+  output_stream.close();
 }
