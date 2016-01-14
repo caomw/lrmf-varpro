@@ -40,7 +40,7 @@ void parse_options_from_args(int argc, char* argv[], options_t &general_opts, op
       } else if (argType == "-r" || argType == "--rank") {
         general_opts.r = atoi(arg.c_str());
         // Parse tolerance.
-      } else if (argType == "-t" || argType == "--tol") {
+      } else if (argType == "-t" || argType == "--func_tol") {
         optimizer_opts.func_tol = std::strtod(arg.c_str(), NULL);
         // Parse the maximum number of iterations.
       } else if (argType == "-i" || argType == "--max_iter") {
@@ -70,11 +70,12 @@ void parse_options_from_args(int argc, char* argv[], options_t &general_opts, op
       std::cout << "---[ PARSED INPUT ARGUMENTS ]---" << std::endl;
       
       std::cout << "1. Dataset: " << general_opts.dataset << std::endl;
-      std::cout << "2. Size: " << general_opts.m << " x " << general_opts.n << std::endl;
-      std::cout << "3. Rank: " << general_opts.r << std::endl;
-      std::cout << "4. Function tolerance: " << optimizer_opts.func_tol << std::endl;
-      std::cout << "5. Max. no. of iterations: " << optimizer_opts.max_iter << std::endl;
-      std::cout << "6. DISPLAY: " << general_opts.DISPLAY << std::endl;
+      std::cout << "2. Folder: " << general_opts.folder << std::endl;
+      std::cout << "3. Size: " << general_opts.m << " x " << general_opts.n << std::endl;
+      std::cout << "4. Rank: " << general_opts.r << std::endl;
+      std::cout << "5. Function tolerance: " << optimizer_opts.func_tol << std::endl;
+      std::cout << "6. Max. no. of iterations: " << optimizer_opts.max_iter << std::endl;
+      std::cout << "7. Display each iteration: " << general_opts.DISPLAY << std::endl;
       
       std::cout << std::endl;
       

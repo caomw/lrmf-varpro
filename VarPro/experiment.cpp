@@ -36,9 +36,9 @@ void run_experiment(options_t general_opts, optimizer_opts_t optimizer_opts) {
   
   // Write the output files including the number of iterations.
   Eigen::VectorXd summary_output(1);
-  summary_output(1) = optimizer_summary.num_iters;
+  summary_output(0) = (double)optimizer_summary.num_iters;
   io::write_dense_matrix(sample_prefix + "_U.bin", U, m, r);
   io::write_dense_matrix(sample_prefix + "_V.bin", V, n, r);
-  io::write_dense_vector(sample_prefix + "_summary.bin", summary_output, 3);
+  io::write_dense_vector(sample_prefix + "_iters.bin", summary_output, 1);
   
 }
