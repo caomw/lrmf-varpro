@@ -1,1 +1,1 @@
-# varpro-lrmc
+# LRMF-VarPro
