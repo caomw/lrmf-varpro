@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 
-PROJECT(je_varpro_lrmf)
+PROJECT(lrmf_varpro)
 
 # Eigen3
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
@@ -23,5 +23,5 @@ set(SOURCES
 )
 
 # LRMF
-ADD_EXECUTABLE(je_varpro_lrmf ${SOURCES})
-# TARGET_LINK_LIBRARIES(je_varpro_lrmf ${CERES_LIBRARIES})
+ADD_EXECUTABLE(lrmf_varpro_exec ${SOURCES})
+
