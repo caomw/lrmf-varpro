@@ -6,7 +6,7 @@
 
 typedef struct problem_vars_store {
   MatrixXd_t U, V;
-  double cost = NULL;
+  double cost = 0.0;
   Eigen::VectorXd residual;
   std::vector<Eigen::HouseholderQR<MatrixXd_t>> U_QR;
 } problem_vars_store_t;
@@ -45,7 +45,7 @@ typedef struct problem {
   int rw = 2; // Ruhe and Wedin algorithm type. (1 = GN, 2 = approx. GN and 3 = ALS.)
   int num_params = 0;
   
-  double cost = NULL;
+  double cost = 0.0;
   
   Eigen::VectorXd residual; // residual
   Eigen::VectorXd gradient;

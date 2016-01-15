@@ -23,6 +23,8 @@ typedef struct optimizer_summary {
   int num_iters = -1;
   int num_evals = -1;
   int exit_code = -1; // (0: function tolerance reached, 1: max number of inner trials reached)
+  double initial_cost = 0.0;
+  double initial_cost_normalized = 0.0;
   double final_cost = 0.0;
   double final_cost_normalized = 0.0;
   double solver_duration = 0.0;

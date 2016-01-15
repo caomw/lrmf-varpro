@@ -51,11 +51,13 @@ void optimizer::print_summary() {
   std::cout << "------------" << std::endl;
   std::cout << std::setw(8) << "Summary" << std::endl;
   std::cout << "------------" << std::endl;
-  std::cout << "- Final cost: " << std::setw(25) << std::scientific << std::setprecision(4) << ptr_summary->final_cost << std::endl;
-  std::cout << "- Final cost (normalized): " << std::setw(12) << ptr_summary->final_cost_normalized << std::endl;
-  std::cout << "- Number of iterations: " << std::setw(15) << ptr_summary->num_iters << std::endl;
-  std::cout << "- Number of evaluations: " << std::setw(14) << ptr_summary->num_evals << std::endl;
-  std::cout << "- Solver duration (ms): " << std::setw(15) << std::fixed << std::setprecision(0) << ptr_summary->solver_duration << std::endl;
+  std::cout << "- Initial cost: " << std::setw(25) << std::scientific << std::setprecision(5) << ptr_summary->initial_cost << std::endl;
+  std::cout << "- Initial cost (normalized): " << std::setw(12) << ptr_summary->initial_cost_normalized << std::endl;
+  std::cout << "- Final cost: " << std::setw(27) << std::scientific << std::setprecision(5) << ptr_summary->final_cost << std::endl;
+  std::cout << "- Final cost (normalized): " << std::setw(14) << ptr_summary->final_cost_normalized << std::endl;
+  std::cout << "- Number of iterations: " << std::setw(17) << ptr_summary->num_iters << std::endl;
+  std::cout << "- Number of evaluations: " << std::setw(16) << ptr_summary->num_evals << std::endl;
+  std::cout << "- Solver duration (ms): " << std::setw(17) << std::fixed << std::setprecision(0) << ptr_summary->solver_duration << std::endl;
   std::cout << "- Exit code: " << exit_code_string[ptr_summary->exit_code] << std::endl;
 }
 
@@ -81,6 +83,7 @@ void optimizer::solve() {
   
   // Compute the initial cost before obtaining V*(U). i.e. V = V0;
   ptr_prob->evaluate_residual(* ptr_prob->ptr_U, * ptr_prob->ptr_Vopt, ptr_prob->residual, ptr_prob->cost);
+  ptr_summary->initial_cost = ptr_prob->cost; // Add the initial cost to the summary.
   cost_change = - ptr_prob->cost;
   if (ptr_opts->DISPLAY) {
     print_iter_info(-1, -1, ptr_prob->cost, 0, ptr_prob->gradient, 0);
@@ -147,6 +150,7 @@ void optimizer::solve() {
   ptr_summary->solver_duration = t_diff;
   ptr_summary->num_iters = iter + 1;
   ptr_summary->num_evals = eval + 1;
+  ptr_summary->initial_cost_normalized = sqrt(2 * ptr_summary->initial_cost / ptr_prob->ptr_data->nnz_total);
   ptr_summary->final_cost = ptr_prob->cost;
-  ptr_summary->final_cost_normalized = sqrt(2 * ptr_prob->cost / ptr_prob->ptr_data->nnz_total);
+  ptr_summary->final_cost_normalized = sqrt(2 * ptr_summary->final_cost / ptr_prob->ptr_data->nnz_total);
 }
