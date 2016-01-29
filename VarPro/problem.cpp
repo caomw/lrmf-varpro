@@ -90,7 +90,6 @@ void problem::evaluate_residual(MatrixXd_t & U, MatrixXd_t & Vopt, Eigen::Vector
     cur_nnz = ptr_data->nnz[j];
     
     // evaluate U_j.
-    // double _U_j[cur_nnz * r];
     double * _U_j = new double[cur_nnz * r];
     for (int k = 0; k < cur_nnz; ++k) {
       for (int rr = 0; rr < r; ++rr) {
@@ -98,7 +97,7 @@ void problem::evaluate_residual(MatrixXd_t & U, MatrixXd_t & Vopt, Eigen::Vector
       }
     }
     Eigen::Map<MatrixXd_t> U_j(_U_j, cur_nnz, r);
-    
+
     // Update residuals
     residual_.segment(nnz_so_far, cur_nnz) += U_j * Vopt.row(j).transpose();
     delete[] _U_j;
