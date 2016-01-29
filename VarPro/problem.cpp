@@ -90,7 +90,8 @@ void problem::evaluate_residual(MatrixXd_t & U, MatrixXd_t & Vopt, Eigen::Vector
     cur_nnz = ptr_data->nnz[j];
     
     // evaluate U_j.
-    double _U_j[cur_nnz * r];
+    // double _U_j[cur_nnz * r];
+    double * _U_j = new double[cur_nnz * r];
     for (int k = 0; k < cur_nnz; ++k) {
       for (int rr = 0; rr < r; ++rr) {
         _U_j[k * r + rr] = U(ptr_data->jj[j][k], rr);
@@ -100,6 +101,7 @@ void problem::evaluate_residual(MatrixXd_t & U, MatrixXd_t & Vopt, Eigen::Vector
     
     // Update residuals
     residual_.segment(nnz_so_far, cur_nnz) += U_j * Vopt.row(j).transpose();
+    delete[] _U_j;
     
     // Update the nnz counter.
     nnz_so_far += cur_nnz;
@@ -125,7 +127,7 @@ void problem::evaluate_optimal_V(const MatrixXd_t U, MatrixXd_t & Vopt, std::vec
     cur_nnz = ptr_data->nnz[j];
     
     // Generate U_j.
-    double _U_j[cur_nnz * r];
+    double * _U_j = new double[cur_nnz * r];
     for (int k = 0; k < cur_nnz; ++k) {
       for (int rr = 0; rr < r; ++rr) {
         _U_j[k * r + rr] = U(ptr_data->jj[j][k], rr);
@@ -134,6 +136,7 @@ void problem::evaluate_optimal_V(const MatrixXd_t U, MatrixXd_t & Vopt, std::vec
     
     // QR-decompose U_j.
     U_QR_[j] = Eigen::HouseholderQR<MatrixXd_t>(Eigen::Map<MatrixXd_t>(_U_j, cur_nnz, r));
+    delete[] _U_j;
     
     // Solve U_j \ mt_j.
     Vopt.row(j) = U_QR_[j].solve(ptr_data->mt.segment(nnz_so_far, cur_nnz));
