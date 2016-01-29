@@ -146,8 +146,7 @@ void optimizer::solve() {
   // Output summary to the summary struct.
   // Measure the duration.
   std::chrono::high_resolution_clock::time_point t_final = std::chrono::high_resolution_clock::now();
-  auto t_diff = std::chrono::duration_cast<std::chrono::milliseconds>(t_final - t_init).count();
-  ptr_summary->solver_duration = t_diff;
+  ptr_summary->solver_duration = (int)std::chrono::duration_cast<std::chrono::milliseconds>(t_final - t_init).count();
   ptr_summary->num_iters = iter + 1;
   ptr_summary->num_evals = eval + 1;
   ptr_summary->initial_cost_normalized = sqrt(2 * ptr_summary->initial_cost / ptr_prob->ptr_data->nnz_total);
