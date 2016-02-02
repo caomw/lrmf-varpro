@@ -26,5 +26,5 @@ set(SOURCES
 ADD_EXECUTABLE(lrmf_varpro_exec ${SOURCES})
 
 # Install command
-INSTALL(TARGETS lrmf_varpro_exec DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+INSTALL(TARGETS lrmf_varpro_exec DESTINATION ${CMAKE_INSTALL_PREFIX})
 
