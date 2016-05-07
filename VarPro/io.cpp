@@ -28,7 +28,7 @@ void io::read_dense_matrix(const std::string file_path, MatrixXd_t & matrix, con
   input_stream.close();
 }
 
-void io::find_visible_entries(const std::string weight_file_path, std::vector<std::vector<int>> & jj, std::vector<int> & nnz, int & nnz_total, const int num_rows, const int num_cols) {
+void io::find_visible_entries(const std::string weight_file_path, std::vector<std::vector<int> > & jj, std::vector<int> & nnz, int & nnz_total, const int num_rows, const int num_cols) {
   
   // Resize nnz and the outer size of jj.
   jj.resize(num_cols);
@@ -58,7 +58,7 @@ void io::find_visible_entries(const std::string weight_file_path, std::vector<st
   input_stream.close();
 }
 
-void io::read_visible_entries(const std::string file_path, Eigen::VectorXd & x, std::vector<std::vector<int>> jj, const std::vector<int> nnz, const int nnz_total, const int num_rows, const int num_cols) {
+void io::read_visible_entries(const std::string file_path, Eigen::VectorXd & x, std::vector<std::vector<int> > jj, const std::vector<int> nnz, const int nnz_total, const int num_rows, const int num_cols) {
   // Open the input stream.
   std::ifstream input_stream(file_path.c_str(), std::ios::binary);
   if (!input_stream.is_open()) {

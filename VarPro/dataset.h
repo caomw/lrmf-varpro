@@ -23,7 +23,7 @@ typedef struct dataset {
   int nnz_total = 0; // number of nonzero elements in total
   
   /* Indices */
-  std::vector<std::vector<int>> jj; // Shows which rows are visible for each column.
+  std::vector<std::vector<int> > jj; // Shows which rows are visible for each column.
   std::vector<int> nnz;
   
   // Eigen

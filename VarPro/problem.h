@@ -8,7 +8,7 @@ typedef struct problem_vars_store {
   MatrixXd_t U, V;
   double cost = 0.0;
   Eigen::VectorXd residual;
-  std::vector<Eigen::HouseholderQR<MatrixXd_t>> U_QR;
+  std::vector<Eigen::HouseholderQR<MatrixXd_t> > U_QR;
 } problem_vars_store_t;
 
 typedef struct problem {
@@ -33,7 +33,7 @@ typedef struct problem {
   void evaluate_U_update(MatrixXd_t & U, const Eigen::VectorXd du);
   void evaluate_residual(MatrixXd_t & U, MatrixXd_t & Vopt, Eigen::VectorXd & residual_, double & cost);
   void evaluate_optimal_V();
-  void evaluate_optimal_V(const MatrixXd_t U, MatrixXd_t & Vopt, std::vector<Eigen::HouseholderQR<MatrixXd_t>> & U_QR_);
+  void evaluate_optimal_V(const MatrixXd_t U, MatrixXd_t & Vopt, std::vector<Eigen::HouseholderQR<MatrixXd_t> > & U_QR_);
   
   /* Data */
   bool rank_fill = 0;
@@ -50,7 +50,7 @@ typedef struct problem {
   Eigen::VectorXd residual; // residual
   Eigen::VectorXd gradient;
   MatrixXd_t JTJ;
-  std::vector<Eigen::HouseholderQR<MatrixXd_t>> U_QR;
+  std::vector<Eigen::HouseholderQR<MatrixXd_t> > U_QR;
   
   /* Pointers */
   MatrixXd_t * ptr_U, * ptr_Vopt;

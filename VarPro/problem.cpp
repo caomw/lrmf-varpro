@@ -117,7 +117,7 @@ void problem::evaluate_optimal_V() {
 }
 
 /* VarPro inner iteration */
-void problem::evaluate_optimal_V(const MatrixXd_t U, MatrixXd_t & Vopt, std::vector<Eigen::HouseholderQR<MatrixXd_t>> & U_QR_) {
+void problem::evaluate_optimal_V(const MatrixXd_t U, MatrixXd_t & Vopt, std::vector<Eigen::HouseholderQR<MatrixXd_t> > & U_QR_) {
   int n = Vopt.rows();
   int cur_nnz, nnz_so_far = 0;
   
