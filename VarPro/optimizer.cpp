@@ -39,7 +39,7 @@ void optimizer::print_iter_header_bar() {
 void optimizer::print_iter_info(int iter, int eval, double cost, double cost_change, Eigen::VectorXd gradient, double lambda) {
   std::cout << std::setw(8) << iter;
   std::cout << std::setw(8) << eval;
-  std::cout << std::setw(14) << std::scientific << std::setprecision(5) << cost;
+  std::cout << std::setw(14) << std::scientific << std::setprecision(6) << cost;
   std::cout << std::setw(14) << std::setprecision(2) << cost_change;
   std::cout << std::setw(14) << std::setprecision(2) << gradient.norm();
   std::cout << std::setw(14) << std::setprecision(2) << std::scientific << lambda <<std::endl;
@@ -51,9 +51,9 @@ void optimizer::print_summary() {
   std::cout << "------------" << std::endl;
   std::cout << std::setw(8) << "Summary" << std::endl;
   std::cout << "------------" << std::endl;
-  std::cout << "- Initial cost: " << std::setw(25) << std::scientific << std::setprecision(5) << ptr_summary->initial_cost << std::endl;
+  std::cout << "- Initial cost: " << std::setw(25) << std::scientific << std::setprecision(6) << ptr_summary->initial_cost << std::endl;
   std::cout << "- Initial cost (normalized): " << std::setw(12) << ptr_summary->initial_cost_normalized << std::endl;
-  std::cout << "- Final cost: " << std::setw(27) << std::scientific << std::setprecision(5) << ptr_summary->final_cost << std::endl;
+  std::cout << "- Final cost: " << std::setw(27) << std::scientific << std::setprecision(6) << ptr_summary->final_cost << std::endl;
   std::cout << "- Final cost (normalized): " << std::setw(14) << ptr_summary->final_cost_normalized << std::endl;
   std::cout << "- Number of iterations: " << std::setw(17) << ptr_summary->num_iters << std::endl;
   std::cout << "- Number of evaluations: " << std::setw(16) << ptr_summary->num_evals << std::endl;
